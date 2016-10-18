@@ -39,6 +39,7 @@ void adc_init(void)
 /* ADCx regular channel8 configuration */
  ADC_RegularChannelConfig(ADC1, ADC_Channel_8, 1, ADC_SampleTime_16Cycles);
  /* Enable the ADC */
+ init_NVIC();
  ADC_Cmd(ADC1, ENABLE);
  /* Wait until the ADC1 is ready */
  while(ADC_GetFlagStatus(ADC1, ADC_FLAG_ADONS) == RESET)
@@ -46,13 +47,23 @@ void adc_init(void)
  }
  /* Start ADC Software Conversion */
  ADC_SoftwareStartConv(ADC1);
-
 }
 
-uint16_t startADC (void)
-{
-	/* Start ADC Software Conversion */
-	ADC_SoftwareStartConv(ADC1);
-	while(!ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC)){}
-	return ADC_GetConversionValue(ADC1);
+void init_NVIC(void){
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
+    NVIC_InitTypeDef NVIC_InitStructure;
+    NVIC_InitStructure.NVIC_IRQChannel = ADC1_IRQn; //zoznam prerušení nájdete v súbore stm32l1xx.h
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
+    ADC_ITConfig(ADC1, ADC_IT_EOC, ENABLE);
+}
+
+uint16_t value;
+void ADC1_IRQHandler(void){
+    if(ADC1->SR & ADC_SR_EOC){
+
+        value = ADC1->DR;
+    }
 }

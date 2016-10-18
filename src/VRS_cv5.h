@@ -9,6 +9,7 @@
 #define VRS_CV5_H_
 
 void adc_init(void);
-uint16_t startADC (void);
+void ADC1_IRQHandler(void);
+void init_NVIC(void);
 
 #endif /* VRS_CV5_H_ */

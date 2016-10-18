@@ -31,6 +31,7 @@ SOFTWARE.
 #include "stm32l1xx.h"
 #include "VRS_cv5.h"
 
+extern uint16_t value;
 
 /* Private typedef */
 /* Private define  */
@@ -71,15 +72,13 @@ int main(void)
   /* TODO - Add your application code here */
 
   adc_init();
-  uint16_t pom;
+  int pom;
 
   /* Infinite loop */
   while (1)
   {
 
-	pom = startADC();
-
-
+	pom = value;
 
 	i++;
   }
