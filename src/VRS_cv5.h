@@ -11,5 +11,9 @@
 void adc_init(void);
 void ADC1_IRQHandler(void);
 void init_NVIC(void);
+void initUSART1(void);
+void PutcUART1(char);
+void USART1_IRQHandler(void);
+void RegisterCallbackUART1(void *);
 
 #endif /* VRS_CV5_H_ */

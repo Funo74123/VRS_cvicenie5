@@ -73,12 +73,15 @@ int main(void)
 
   adc_init();
   int pom;
+  RegisterCallbackUART1(stav);
+
 
   /* Infinite loop */
   while (1)
   {
 
 	pom = value;
+	PutcUART1('g');
 
 	i++;
   }
